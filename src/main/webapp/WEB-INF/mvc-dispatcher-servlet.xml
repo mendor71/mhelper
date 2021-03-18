@@ -1,0 +1,112 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <context:component-scan base-package="ru.pack.csps"/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="ru.pack.csps.util.HalHttpMessageConvertor"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <jpa:repositories base-package="ru.pack.csps.repository"/>
+
+    <import resource="security-context.xml"/>
+
+    <context:property-placeholder location="classpath*:*.properties" file-encoding="UTF-8"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value=""/>
+        <property name="username" value=""/>
+        <property name="password" value=""/>
+    </bean>
+
+    <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+
+    <bean id="entityManagerFactory" name="managerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</prop>
+                <prop key="javax.persistence.schema-generation.database.action">none</prop>
+                <prop key="hibernate.ejb.use_class_enhancer">true</prop>
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+        <property name="packagesToScan" value="ru.pack.csps.entity"/>
+        <property name="sharedCacheMode" value="ENABLE_SELECTIVE"/>
+        <property name="validationMode" value="NONE"/>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10000000"/>
+    </bean>
+
+    <bean class="ru.pack.csps.crypt.Encryptor">
+        <property name="initVector" value="RandomInitVector"/>
+        <property name="secretKey" value="CfeZvH6LyCtcF5oCss0UwG+Nq9AAjd739PLtG1dwIzw"/>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean class="ru.pack.csps.service.MailService">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="techAddress" value="mendor771@gmail.com"/>
+        <property name="techPassword" value="JXtymckj;ysq1"/>
+        <property name="techUserName" value="mendor771@gmail.com"/>
+    </bean>
+
+    <bean class="ru.pack.csps.service.SmsService"/>
+
+    <bean class="ru.pack.csps.util.CompanyProperties">
+        <property name="companyName" value="ООО Плюс"/>
+        <property name="companyINN" value="123445678"/>
+        <property name="companyOrgNum" value="123445678"/>
+        <property name="companyPhysicalAddress" value="Российская федерация"/>
+        <property name="platformName" value="MoneyHelper"/>
+    </bean>
+
+    <bean name="commissionPolicy" class="ru.pack.csps.util.SimpleCommissionPolicy">
+        <constructor-arg name="staticPercent" value="10"/>
+    </bean>
+
+    <bean class="ru.pack.csps.service.CommissionService">
+        <property name="commissionPolicy" ref="commissionPolicy"/>
+    </bean>
+
+    <bean id="intCodeGenerator" class="ru.pack.csps.util.CodeGenerator">
+        <property name="min" value="1111"/>
+        <property name="max" value="9999"/>
+    </bean>
+
+    <bean id="simpleCodeGenerator" class="ru.pack.csps.util.SimpleCodeGenerator"/>
+
+    <bean class="ru.pack.csps.service.CodeGeneratorService">
+        <property name="codeGenerator" ref="simpleCodeGenerator"/>
+    </bean>
+
+    <bean class="ru.pack.csps.util.BankProperties">
+        <property name="secretApiKey" value="ab48cc7da70be16e485db362ce946754"/>
+    </bean>
+
+    <tx:annotation-driven/>
+</beans>

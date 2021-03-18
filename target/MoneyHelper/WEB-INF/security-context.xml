@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:secutity="http://www.springframework.org/schema/security"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <security:global-method-security
+            secured-annotations="enabled"
+            pre-post-annotations="enabled"/>
+
+
+    <secutity:http
+        authentication-manager-ref="authenticationManager">
+        <!--<secutity:intercept-url pattern="/" access="permitAll()"/>-->
+        <!--<secutity:intercept-url pattern="/login*" access="permitAll()"/>-->
+        <!--<secutity:intercept-url pattern="/registration*" access="permitAll()"/>-->
+        <!--<secutity:intercept-url pattern="/Notifications*" access="permitAll()"/>-->
+        <!--<secutity:intercept-url pattern="/*" access="hasRole('ROLE_USER')"/>-->
+        <secutity:access-denied-handler error-page="/403"/>
+        <secutity:csrf disabled="true"/>
+        <secutity:form-login
+            login-page="/login"
+            login-processing-url="/j_spring_security_check"
+            authentication-failure-url="/login?error"
+            username-parameter="j_username"
+            password-parameter="j_password"
+            authentication-failure-handler-ref="authenticationFailureHandler"/>
+            <!--authentication-success-handler-ref="customSuccessAuthHandler"-->
+            <!--authentication-failure-handler-ref="simpleUrlAuthenticationFailureHandler"-->
+    <security:logout
+        logout-url="/logout"
+        logout-success-url="/login?logout"
+        delete-cookies="JSESSIONID"
+        invalidate-session="true"/>
+    </secutity:http>
+
+    <bean id="customSuccessAuthHandler" class="ru.pack.csps.security.app.CustomSuccessAuthHandler"/>
+
+    <bean id="authenticationFailureHandler"
+          class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.springframework.security.authentication.BadCredentialsException">/login_error?type=badCredentials&amp;link=http://localhost:8080/MoneyHelper/password_reset</prop>
+                <prop key="org.springframework.security.authentication.DisabledException">/login_error?type=accountDisabled&amp;link=http://www.google.com</prop>
+            </props>
+        </property>
+    </bean>
+
+    <secutity:authentication-manager id="authenticationManager">
+        <secutity:authentication-provider ref="customAuthenticationProvider"/>
+    </secutity:authentication-manager>
+
+    <bean id="customAuthenticationProvider" class="ru.pack.csps.security.app.CustomAuthenticationProvider">
+        <property name="passwordEncoder" ref="bCryptEncoder"/>
+    </bean>
+
+    <bean id="bCryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+</beans>

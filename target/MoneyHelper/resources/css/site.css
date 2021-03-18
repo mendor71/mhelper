@@ -1,0 +1,197 @@
+@font-face {
+    font-family: Akrobat;
+    src: url('../fonts/Akrobat-Regular.otf');
+    font-weight: normal;
+}
+@font-face {
+    font-family: Akrobat;
+    src: url('../fonts/Akrobat-Bold.otf');
+    font-weight: bold;
+}
+body{
+    font-family: Akrobat;
+    margin: 0;
+    padding: 0;
+}
+
+.login_container{
+    width: 500px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.login_container input{
+    display: block;
+    width: 400px;
+    height: 50px;
+    margin-left: 50px;
+    margin-top: 10px;
+}
+
+.input_info{
+    display: block;
+    width: 400px;
+    height: 30px;
+}
+.forget_pass{
+    float: right;
+    margin-top: -28px;
+    margin-right: 50px;
+}
+
+.login_container button{
+    display: block;
+    width: 400px;
+    height: 50px;
+    margin-left: 50px;
+    margin-top: 10px;
+    background-color: #497B9F;
+    background: linear-gradient(90deg,#497B9F, #45AEA5);
+    border: 0px;
+    color: white;
+    font-size: 12pt;
+    text-transform: uppercase;
+}
+.logo_description{
+    color: #497B9F;
+    font-size: 15pt;
+}
+
+#sign_up_btn{
+    background: #EBEBEB;
+    color: #497B9F;
+}
+
+.i_am_mew{
+    display: block;
+    position: relative;
+    width: 400px;
+    height: 10px;
+    color: grey;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.login_quote{
+    display: block;
+    position: relative;
+    width: 400px;
+    margin: 100px 50px;
+}
+
+.reg_container{
+    width: 700px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.reg_container .labels{
+    display: block;
+    float: left;
+    width: 150px;
+    text-align: right;
+    padding-right: 20px;
+    padding-top: 24px;
+}
+
+.reg_container .inputs{
+    display: block;
+    float: left;
+    width: 400px;
+
+}
+
+.reg_container .errors{
+    display: block;
+    float: left;
+    width: 450px;
+}
+.reg_container .labels label{
+    display: block;
+    margin-bottom: 42px;
+}
+
+.reg_container input{
+    display: block;
+    width: 400px;
+    height: 50px;
+    margin-top: 10px;
+}
+
+.reg_container button{
+    display: block;
+    width: 400px;
+    height: 50px;
+    margin-left: 170px;
+    margin-top: 20px;
+    clear: both;
+    background-color: #497B9F;
+    background: linear-gradient(90deg,#497B9F, #45AEA5);
+    border: 0px;
+    color: white;
+    font-size: 12pt;
+    text-transform: uppercase;
+}
+.reg_container h3{
+    color: #497B9F;
+}
+.left_container, .left_menu, .left_menu .webix_list_item{
+    background: linear-gradient(90deg,#FCFDFD, #DEDEDE);
+
+}
+.webix_list_item{
+    padding-left: 50px;
+    text-transform: uppercase;
+}
+.webix_menu.webix_view .webix_list_item:active,.webix_menu.webix_view .webix_list_item:hover{
+    background-color: #EBE4D0;
+}
+.webix_menu.webix_view .webix_list_item.webix_selected{
+    background:#D3D4D5;
+}
+.left_logo{
+    padding: 5px;
+    padding-left: 50px;
+    font-size: 8pt;
+    background: transparent;
+}
+.left_logo img{
+    zoom: 35%;
+    margin-left: -30px;
+}
+
+.logo{
+    width: 500px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.head_fullname{
+    padding: 6px 20px;
+    font-size: 16pt;
+    color: black;
+}
+.head_contact{
+    color: #497B9F;
+    font-size: 17pt;
+    font-family: Akrobat;
+    padding-right: 40px;
+    padding-top: 3px;
+}
+.btn{
+    display: block;
+    width: 400px;
+    height: 50px;
+    margin-left: 50px;
+    margin-top: 10px;
+    background-color: #497B9F;
+    background: linear-gradient(90deg,#497B9F, #45AEA5);
+    border: 0px;
+    color: white;
+    font-size: 12pt;
+    text-transform: uppercase;
+}
+.head_alert{
+    font-size: 9pt;
+    color: darkred;
+}
